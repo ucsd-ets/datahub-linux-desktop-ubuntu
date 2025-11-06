@@ -22,9 +22,8 @@ RUN apt-get update && apt-get -y install htop \
   xorg \
   xubuntu-icon-theme \
   tigervnc-standalone-server \
-  firefox
+  chromium-browser
 
-RUN sudo systemctl start snapd && sudo snap install firefox
 
 # 3) install packages using notebook user
 USER jovyan
