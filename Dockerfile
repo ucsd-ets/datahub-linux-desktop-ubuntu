@@ -24,6 +24,8 @@ RUN apt-get update && apt-get -y install htop \
   tigervnc-standalone-server \
   firefox
 
+RUN snap install firefox
+
 # 3) install packages using notebook user
 USER jovyan
 
