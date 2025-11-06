@@ -13,7 +13,7 @@ LABEL maintainer="UC San Diego ITS/ETS <ets-consult@ucsd.edu>"
 # 2) change to root to install packages
 USER root
 
-RUN apt-get -y install htop \
+RUN apt-get update && apt-get -y install htop \
   dbus-x11 \
   xfce4 \
   xfce4-panel \
