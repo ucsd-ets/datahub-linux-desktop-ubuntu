@@ -23,7 +23,7 @@ RUN apt-get update && apt-get -y install htop \
   xubuntu-icon-theme \
   tigervnc-standalone-server
 
-RUN sudo add-apt-repository ppa:ungoogled-chromium/ppa && sudo apt update && sudo apt install ungoogled-chromium
+#RUN sudo add-apt-repository ppa:ungoogled-chromium/ppa && sudo apt update && sudo apt install ungoogled-chromium
 
 # 3) install packages using notebook user
 USER jovyan
