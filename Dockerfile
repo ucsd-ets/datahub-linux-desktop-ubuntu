@@ -21,7 +21,9 @@ RUN apt-get update && apt-get -y install htop \
   xfce4-settings \
   xorg \
   xubuntu-icon-theme \
-  tigervnc-standalone-server
+  tigervnc-standalone-server \
+  firefox \
+  && rm -rf /var/lib/apt/lists/*
 
 #RUN sudo add-apt-repository ppa:ungoogled-chromium/ppa && sudo apt update && sudo apt install ungoogled-chromium
 
