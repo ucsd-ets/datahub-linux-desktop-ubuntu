@@ -13,7 +13,15 @@ LABEL maintainer="UC San Diego ITS/ETS <ets-consult@ucsd.edu>"
 # 2) change to root to install packages
 USER root
 
-RUN apt-get update && apt-get -y install htop \
+RUN apt-get update && \
+  apt-get install -y software-properties-common && \
+  add-apt-repository -y ppa:mozillateam/ppa && \
+  echo 'Package: *' > /etc/apt/preferences.d/mozilla-firefox && \
+  echo 'Pin: release o=LP-PPA-mozillateam' >> /etc/apt/preferences.d/mozilla-firefox && \
+  echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/mozilla-firefox && \
+  apt-get update && \
+  apt-get -y install \
+  htop \
   dbus-x11 \
   xfce4 \
   xfce4-panel \
