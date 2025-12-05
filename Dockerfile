@@ -15,6 +15,7 @@ USER root
 
 RUN apt-get update && \
   apt-get install -y software-properties-common && \
+  add-apt-repository -y ppa:ubuntugis/ppa && \
   add-apt-repository -y ppa:mozillateam/ppa && \
   echo 'Package: *' > /etc/apt/preferences.d/mozilla-firefox && \
   echo 'Pin: release o=LP-PPA-mozillateam' >> /etc/apt/preferences.d/mozilla-firefox && \
