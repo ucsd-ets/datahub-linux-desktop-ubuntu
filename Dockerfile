@@ -14,12 +14,14 @@ LABEL maintainer="UC San Diego ITS/ETS <ets-consult@ucsd.edu>"
 USER root
 
 RUN apt-get update && \
-  apt-get install -y software-properties-common && \
-  add-apt-repository -y ppa:ubuntugis/ppa && \
+  apt-get install -y software-properties-common wget gnupg lsb-release && \
   add-apt-repository -y ppa:mozillateam/ppa && \
   echo 'Package: *' > /etc/apt/preferences.d/mozilla-firefox && \
   echo 'Pin: release o=LP-PPA-mozillateam' >> /etc/apt/preferences.d/mozilla-firefox && \
   echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/mozilla-firefox && \
+  mkdir -p /etc/apt/keyrings && \
+  wget -qO /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg && \
+  echo "Types: deb deb-src\nURIs: https://qgis.org/ubuntu-ltr\nSuites: $(lsb_release -cs)\nArchitectures: amd64\nComponents: main\nSigned-By: /etc/a
   apt-get update && \
   apt-get -y install \
   htop \
