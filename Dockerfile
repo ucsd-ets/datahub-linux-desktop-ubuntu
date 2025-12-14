@@ -23,7 +23,8 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/mozilla-firefox && \
   mkdir -p /etc/apt/keyrings && \
   wget -qO /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg && \
-  printf "Types: deb deb-src\nURIs: https://qgis.org/ubuntu-ltr\nSuites: $(lsb_release -cs)\nArchitectures: amd64\nComponents: main\nSigned-By: /etc/apt/keyrings/qgis-archive-keyring.gpg\n" > /etc/apt/sources.list.d/qgis.sources && \  apt-get update && \
+  printf "Types: deb deb-src\nURIs: https://qgis.org/ubuntu-ltr\nSuites: $(lsb_release -cs)\nArchitectures: amd64\nComponents: main\nSigned-By: /etc/apt/keyrings/qgis-archive-keyring.gpg\n" > /etc/apt/sources.list.d/qgis.sources && \
+  apt-get update && \
   apt-get -y install \
   qgis \
   qgis-plugin-grass \
