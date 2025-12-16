@@ -38,7 +38,8 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   xubuntu-icon-theme \
   tigervnc-standalone-server \
   firefox && \
-  wget -q https://www.mathworks.com/mpm/lnx/mpm && \
+  df -h && \
+  wget https://www.mathworks.com/mpm/lnx/mpm && \
   chmod +x mpm && \
   ./mpm install \
   --release=r2023b \
