@@ -37,7 +37,7 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   xorg \
   xubuntu-icon-theme \
   tigervnc-standalone-server \
-  firefox \
+  firefox && \
   wget -q https://www.mathworks.com/mpm/lnx/mpm && \
   chmod +x mpm && \
   ./mpm install \
@@ -45,7 +45,7 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   --destination=/opt/matlab/R2023b \
   --products MATLAB Statistics_and_Machine_Learning_Toolbox \
   && rm -f mpm && \
-  && rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/*
 
 #RUN sudo add-apt-repository ppa:ungoogled-chromium/ppa && sudo apt update && sudo apt install ungoogled-chromium
 
