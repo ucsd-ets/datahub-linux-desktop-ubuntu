@@ -38,6 +38,13 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   xubuntu-icon-theme \
   tigervnc-standalone-server \
   firefox \
+  wget -q https://www.mathworks.com/mpm/lnx/mpm && \
+  chmod +x mpm && \
+  ./mpm install \
+  --release=r2023b \
+  --destination=/opt/matlab/R2023b \
+  --products MATLAB Statistics_and_Machine_Learning_Toolbox \
+  && rm -f mpm && \
   && rm -rf /var/lib/apt/lists/*
 
 #RUN sudo add-apt-repository ppa:ungoogled-chromium/ppa && sudo apt update && sudo apt install ungoogled-chromium
@@ -47,7 +54,7 @@ USER jovyan
 
 # RUN conda install -y scikit-learn
 
-RUN pip install --no-cache-dir networkx scipy jupyter-remote-desktop-proxy
+RUN pip install --no-cache-dir networkx scipy jupyter-remote-desktop-proxy jupyter-matlab-proxy
 
 # Override command to disable running jupyter notebook at launch
 # CMD ["/bin/bash"]
