@@ -39,7 +39,7 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   tigervnc-standalone-server \
   firefox && \
   df -h && \
-  wget https://www.mathworks.com/mpm/lnx/mpm && \
+  wget https://www.mathworks.com/mpm/glnxa64/mpm && \
   chmod +x mpm && \
   ./mpm install \
   --release=r2023b \
