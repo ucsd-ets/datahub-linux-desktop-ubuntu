@@ -48,12 +48,34 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   && rm -f mpm && \
   rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p -m 0755 /etc/datahub-profile.d && \
+    echo "export MLM_LICENSE_FILE='1700@its-flexlm-lnx1.ucsd.edu'" > /etc/datahub-profile.d/matlab-flexlm.sh
+
+RUN echo 'export PATH=/opt/matlab/R2023b/bin:$PATH' >> /etc/profile && \
+    echo 'export PATH=/opt/matlab/R2023b/bin:$PATH' >> /etc/bash.bashrc
+
+RUN mkdir -p /usr/share/applications && \
+    echo "[Desktop Entry]\n\
+Version=1.0\n\
+Type=Application\n\
+Name=MATLAB R2023b\n\
+Comment=Scientific Computing\n\
+Exec=/opt/matlab/R2023b/bin/matlab -desktop\n\
+Icon=applications-science\n\
+Terminal=false\n\
+StartupNotify=true" > /usr/share/applications/matlab.desktop && \
+    chmod +x /usr/share/applications/matlab.desktop
+
 #RUN sudo add-apt-repository ppa:ungoogled-chromium/ppa && sudo apt update && sudo apt install ungoogled-chromium
 
 # 3) install packages using notebook user
 USER jovyan
 
 # RUN conda install -y scikit-learn
+
+RUN mkdir -p /home/jovyan/Desktop && \
+    cp /usr/share/applications/matlab.desktop /home/jovyan/Desktop/ && \
+    chmod +x /home/jovyan/Desktop/matlab.desktop
 
 RUN pip install --no-cache-dir networkx scipy jupyter-remote-desktop-proxy jupyter-matlab-proxy
 
