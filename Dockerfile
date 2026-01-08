@@ -48,12 +48,6 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   && rm -f mpm && \
   rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p -m 0755 /etc/datahub-profile.d && \
-    echo "export MLM_LICENSE_FILE='1700@its-flexlm-lnx1.ucsd.edu'" > /etc/datahub-profile.d/matlab-flexlm.sh
-
-RUN echo 'export PATH=/opt/matlab/R2023b/bin:$PATH' >> /etc/profile && \
-    echo 'export PATH=/opt/matlab/R2023b/bin:$PATH' >> /etc/bash.bashrc
-
 RUN mkdir -p /usr/share/applications && \
     echo "[Desktop Entry]\n\
 Version=1.0\n\
@@ -65,6 +59,17 @@ Icon=applications-science\n\
 Terminal=false\n\
 StartupNotify=true" > /usr/share/applications/matlab.desktop && \
     chmod +x /usr/share/applications/matlab.desktop
+
+RUN echo 'export PATH=/opt/matlab/R2023b/bin:$PATH' >> /etc/bash.bashrc && \
+    echo 'export PATH=/opt/matlab/R2023b/bin:$PATH' >> /etc/profile
+
+RUN mkdir -p /etc/datahub-profile.d && \
+    echo "export MLM_LICENSE_FILE='1700@its-flexlm-lnx1.ucsd.edu'" > /etc/datahub-profile.d/matlab-flexlm.sh && \
+    echo '#!/bin/bash' > /etc/datahub-profile.d/ensure-matlab-icon.sh && \
+    echo 'mkdir -p ~/Desktop' >> /etc/datahub-profile.d/ensure-matlab-icon.sh && \
+    echo 'cp -n /usr/share/applications/matlab.desktop ~/Desktop/ 2>/dev/null || true' >> /etc/datahub-profile.d/ensure-matlab-icon.sh && \
+    echo 'chmod +x ~/Desktop/matlab.desktop 2>/dev/null || true' >> /etc/datahub-profile.d/ensure-matlab-icon.sh && \
+    chmod +x /etc/datahub-profile.d/ensure-matlab-icon.sh
 
 #RUN sudo add-apt-repository ppa:ungoogled-chromium/ppa && sudo apt update && sudo apt install ungoogled-chromium
 
