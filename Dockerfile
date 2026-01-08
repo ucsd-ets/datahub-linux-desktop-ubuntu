@@ -49,7 +49,7 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /usr/share/applications && \
-    echo "[Desktop Entry]\n\
+    printf "[Desktop Entry]\n\
 Version=1.0\n\
 Type=Application\n\
 Name=MATLAB R2023b\n\
