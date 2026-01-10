@@ -49,15 +49,14 @@ RUN add-apt-repository -y ppa:mozillateam/ppa && \
   rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /usr/share/applications && \
-    printf "[Desktop Entry]\n\
-Version=1.0\n\
-Type=Application\n\
-Name=MATLAB R2023b\n\
-Comment=Scientific Computing\n\
-Exec=/opt/matlab/R2023b/bin/matlab -desktop\n\
-Icon=applications-science\n\
-Terminal=false\n\
-StartupNotify=true" > /usr/share/applications/matlab.desktop && \
+    echo Version=1.0\n\ && \
+    echo Type=Application\n\ && \
+    echo Name=MATLAB R2023b\n\ && \
+    echo Comment=Scientific Computing\n\ && \
+    echo Exec=/opt/matlab/R2023b/bin/matlab -desktop\n\ && \
+    echo Icon=applications-science\n\ && \
+    echo Terminal=false\n\ && \
+    echo StartupNotify=true" > /usr/share/applications/matlab.desktop && \
     chmod +x /usr/share/applications/matlab.desktop
 
 RUN echo 'export PATH=/opt/matlab/R2023b/bin:$PATH' >> /etc/bash.bashrc && \
