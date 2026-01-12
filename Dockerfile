@@ -1,4 +1,4 @@
-# 1) choose base container 
+# 1) choose base container  
 # generally use the most recent tag
 
 # base notebook, contains Jupyter and relevant tools
