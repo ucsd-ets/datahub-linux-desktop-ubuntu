@@ -1,38 +1,51 @@
 #!/bin/bash
 set -e
 
-# 1. Create the Desktop Shortcut 
-mkdir -p /usr/share/applications
-echo "[Desktop Entry]" > /usr/share/applications/matlab.desktop
-echo "Version=1.0" >> /usr/share/applications/matlab.desktop
-echo "Type=Application" >> /usr/share/applications/matlab.desktop
-echo "Name=MATLAB R2023b" >> /usr/share/applications/matlab.desktop
-echo "Comment=Scientific Computing" >> /usr/share/applications/matlab.desktop
-echo "Exec=/opt/matlab/R2023b/bin/matlab -desktop" >> /usr/share/applications/matlab.desktop
-echo "Icon=applications-science" >> /usr/share/applications/matlab.desktop
-echo "Terminal=false" >> /usr/share/applications/matlab.desktop
-echo "StartupNotify=true" >> /usr/share/applications/matlab.desktop
-chmod +x /usr/share/applications/matlab.desktop
-
-# 2. Add MATLAB to Global PATH
-echo 'export PATH=/opt/matlab/R2023b/bin:$PATH' >> /etc/bash.bashrc
-echo 'export PATH=/opt/matlab/R2023b/bin:$PATH' >> /etc/profile
-
-# 3. Create Startup & License Scripts
+# Create profile directory
 mkdir -p /etc/datahub-profile.d
 
-# License File
-echo "export MLM_LICENSE_FILE='1700@its-flexlm-lnx1.ucsd.edu'" > /etc/datahub-profile.d/matlab-flexlm.sh
-
-# Icon Restoration Script 
-cat <<EOF > /etc/datahub-profile.d/ensure-matlab-icon.sh
+# Write dynamic bootstrap script
+cat <<'EOF' > /etc/datahub-profile.d/bootstrap-matlab.sh
 #!/bin/bash
+
+MOUNT_ROOT="/software/matlab"
+
+# Stop if mount is missing
+if [ ! -d "$MOUNT_ROOT" ]; then
+   return
+fi
+
+# Find newest matlab binary
+MATLAB_BIN=$(find "$MOUNT_ROOT" -maxdepth 3 -name "matlab" -type f -executable | sort -r | head -n 1)
+
+if [ -z "$MATLAB_BIN" ]; then
+   return
+fi
+
+MATLAB_HOME=$(dirname $(dirname "$MATLAB_BIN"))
+
+# Set environment
+export MLM_LICENSE_FILE='1700@its-flexlm-lnx1.ucsd.edu'
+export PATH="$MATLAB_HOME/bin:$PATH"
+
+# Create Desktop shortcut
 mkdir -p ~/Desktop
-# Only copy if the file does not exist (prevents overwriting user changes)
+
 if [ ! -f ~/Desktop/matlab.desktop ]; then
-   cp /usr/share/applications/matlab.desktop ~/Desktop/
+   cat <<DESKTOP > ~/Desktop/matlab.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MATLAB (Network)
+Comment=Network Mounted from $MATLAB_HOME
+Exec=$MATLAB_BIN -desktop
+Icon=applications-science
+Terminal=false
+StartupNotify=true
+DESKTOP
+
    chmod +x ~/Desktop/matlab.desktop
 fi
 EOF
 
-chmod +x /etc/datahub-profile.d/ensure-matlab-icon.sh
+chmod +x /etc/datahub-profile.d/bootstrap-matlab.sh
