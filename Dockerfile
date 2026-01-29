@@ -26,11 +26,6 @@ RUN chmod +x /tmp/scripts/configure_matlab.sh && \
 # 3) install packages using notebook user
 USER jovyan
 
-#4) Fallback copy
-RUN mkdir -p /home/jovyan/Desktop && \
-    cp /usr/share/applications/matlab.desktop /home/jovyan/Desktop/ && \
-    chmod +x /home/jovyan/Desktop/matlab.desktop
-
 RUN pip install --no-cache-dir networkx scipy jupyter-remote-desktop-proxy
 
 # Override command to disable running jupyter notebook at launch
