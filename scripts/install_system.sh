@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e 
 
-# 1. Install Prerequisites
+# Install Prerequisites
 apt-get update
 apt-get install -y software-properties-common wget gnupg lsb-release
 rm -rf /var/lib/apt/lists/*
 
-# 2. Add Repositories (Firefox & QGIS)
+# Add Repositories (Firefox & QGIS)
 add-apt-repository -y ppa:mozillateam/ppa
 echo 'Package: *' > /etc/apt/preferences.d/mozilla-firefox
 echo 'Pin: release o=LP-PPA-mozillateam' >> /etc/apt/preferences.d/mozilla-firefox
@@ -16,7 +16,7 @@ mkdir -p /etc/apt/keyrings
 wget -qO /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg
 printf "Types: deb deb-src\nURIs: https://qgis.org/ubuntu-ltr\nSuites: $(lsb_release -cs)\nArchitectures: amd64\nComponents: main\nSigned-By: /etc/apt/keyrings/qgis-archive-keyring.gpg\n" > /etc/apt/sources.list.d/qgis.sources
 
-# 3. Install System Packages + MATLAB Dependencies
+# Install System Packages + MATLAB Dependencies
 apt-get update
 apt-get -y install \
     qgis qgis-plugin-grass \
@@ -26,6 +26,9 @@ apt-get -y install \
     libgtk-3-0 libasound2 libxtst6 libnss3 libxss1 libxrandr2 libxi6 libxcursor1
 
 
-# 4. Cleanup to keep image small
+# Remove screen lockers that interfere with remote desktop
+apt-get purge -y xfce4-screensaver light-locker
+
+# Cleanup to keep image small
 rm -f mpm
 rm -rf /var/lib/apt/lists/*
