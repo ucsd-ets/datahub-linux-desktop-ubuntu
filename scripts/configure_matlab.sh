@@ -1,12 +1,5 @@
 #!/bin/bash
-set -e
-
-# Create profile directory
-mkdir -p /etc/datahub-profile.d
-
-# Write dynamic bootstrap script
-cat <<'EOF' > /etc/datahub-profile.d/bootstrap-matlab.sh
-#!/bin/bash
+# /etc/datahub-profile.d/01-matlab-setup.sh
 
 MOUNT_ROOT="/software/matlab"
 
@@ -45,24 +38,4 @@ StartupNotify=true
 DESKTOP
 
    chmod +x ~/Desktop/matlab.desktop
-
-# Turn off screen blanking for desktop 
-xset s off      # Disable screensaver timer
-xset s noblank  # Disable screen blanking
-xset -dpms      # Disable Energy Star power management
-
-if command -v xfconf-query >/dev/null 2>&1; then
-   xfconf-query -c xfce4-power-manager \
-               -p /xfce4-power-manager/presentation-mode \
-               -n -t bool -s true \
-               2>/dev/null || true
-               
-   # Explicitly disable the lock on suspend/sleep
-   xfconf-query -c xfce4-session \
-               -p /shutdown/LockScreen \
-               -n -t bool -s false \
-               2>/dev/null || true
 fi
-EOF
-
-chmod +x /etc/datahub-profile.d/bootstrap-matlab.sh
