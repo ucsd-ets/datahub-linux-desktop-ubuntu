@@ -46,10 +46,14 @@ DESKTOP
 
    chmod +x ~/Desktop/matlab.desktop
 
-# Turn off screen blanking for desktop 
-xset s off      # Disable screensaver timer
-xset s noblank  # Disable screen blanking
-xset -dpms      # Disable Energy Star power management
+fi
+
+# Turn off screen blanking for desktop (only when an X display exists)
+if [ -n "$DISPLAY" ] && command -v xset >/dev/null 2>&1; then
+   xset s off     2>/dev/null
+   xset s noblank 2>/dev/null
+   xset -dpms     2>/dev/null
+fi
 
 if command -v xfconf-query >/dev/null 2>&1; then
    xfconf-query -c xfce4-power-manager \
